@@ -7,12 +7,14 @@ public class ItemSetupBody : MonoBehaviour
     [SerializeField] private Image _image;
     [SerializeField] private TextMeshProUGUI _value;
     [SerializeField] private ItemBody _item;
+    [SerializeField] private int _id;
     
-    private void Start() => SetItems();
+    public ItemBody Item => _item;
 
-    private void SetItems()
+    public void SetItems()
     {
-        _image.sprite = _item.Sprite;
-        _value.text = $"Coins {_item.Value.ToString()}";
+        _image.sprite = Item.Sprite;
+        _value.text = $"Coins {Item.Value.ToString()}";
+        _id = Item.ID;
     }
 }

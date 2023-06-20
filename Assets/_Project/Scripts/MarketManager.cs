@@ -5,14 +5,20 @@ using UnityEngine;
 public class MarketManager : MonoBehaviour
 {
     [SerializeField] private PlayerEquips _playerEquips;
-    [SerializeField] private ItemHood[] _itemSetupHood;
-    [SerializeField] private ItemBody[] _itemSetupBody;
+    [SerializeField] private ItemSetupBody[] _itemSetupBody;
+    [SerializeField] private ItemSetupHood[] _itemSetupHood;
     [SerializeField] private TextMeshProUGUI _noCoinMessage;
     [SerializeField] private TextMeshProUGUI _itemPurchased;
-    
-    public void BuyItemHood(int itemID)
+
+    private void Start()
     {
-        if (_playerEquips.CharCoins < _itemSetupHood[itemID].Value)
+        foreach (var body in _itemSetupBody) body.SetItems();
+        foreach (var hood in _itemSetupHood) hood.SetItems();
+    }
+
+    public void BuyItemHood(ItemSetupHood itemHood)
+    {
+        if (_playerEquips.CharCoins < itemHood.Item.Value)
         {
             StartCoroutine(ShowNoCoinMessage());
         }
@@ -20,15 +26,15 @@ public class MarketManager : MonoBehaviour
         {
             StartCoroutine(ShowItemPurchasedMessage());
             
-            _playerEquips.CharCoins -= _itemSetupHood[itemID].Value;
+            _playerEquips.CharCoins -= itemHood.Item.Value;
             _playerEquips.SetCoins();
-            _playerEquips.SetItemBuyHood(_itemSetupHood[itemID]);
+            _playerEquips.SetItemBuyHood(itemHood.Item);
         }
     }
     
-    public void BuyItemBody(int itemID)
+    public void BuyItemBody(ItemSetupBody itemBody)
     {
-        if (_playerEquips.CharCoins < _itemSetupBody[itemID].Value)
+        if (_playerEquips.CharCoins < itemBody.Item.Value)
         {
             StartCoroutine(ShowNoCoinMessage());
         }
@@ -36,9 +42,9 @@ public class MarketManager : MonoBehaviour
         {
             StartCoroutine(ShowItemPurchasedMessage());
             
-            _playerEquips.CharCoins -= _itemSetupBody[itemID].Value;
+            _playerEquips.CharCoins -= itemBody.Item.Value;
             _playerEquips.SetCoins();
-            _playerEquips.SetItemBuyBody(_itemSetupBody[itemID]);
+            _playerEquips.SetItemBuyBody(itemBody.Item);
         }
     }
 

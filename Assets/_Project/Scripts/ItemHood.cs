@@ -8,5 +8,9 @@ public class ItemHood : ScriptableObject
     [SerializeField] private int _id;
     
     public Sprite Sprite => _sprite;
+    
     public int Value => _value;
+    
+    public int ID => _id;
+    
 }
